@@ -11,12 +11,12 @@ public class ControlFlowExercises {
             System.out.println("Here is what you get:");
 
 
-            System.out.println("number | squared | cubed ");
-            System.out.println("------ | ------- | ----- ");
+            System.out.println("number\t| squared\t| cubed\t");
+            System.out.println("------\t| -------\t| ------\t");
 
             int counter = 1;
             while (counter <= number) {
-                System.out.println(counter + "\t\t| " + (int)(Math.pow(counter, 2)) + "\t\t|" + (int)(Math.pow(counter, 3)) + "\t\t");
+                System.out.println(counter + "\t\t| " + (int)(Math.pow(counter, 2)) + "\t\t\t|" + (int)(Math.pow(counter, 3)) + "\t\t");
                 counter++;
             }
             System.out.println("Would you like to give me a number? y/N");
