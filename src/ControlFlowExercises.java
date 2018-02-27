@@ -16,7 +16,7 @@ public class ControlFlowExercises {
 
             int counter = 1;
             while (counter <= number) {
-                System.out.println(counter + "\t\t| " + (int)(Math.pow(counter, 2)) + "\t\t\t|" + (int)(Math.pow(counter, 3)) + "\t\t");
+                System.out.printf(" %-7d| %-10d| %-10d\n" ,counter, ((int)(Math.pow(counter, 2))),((int)(Math.pow(counter, 3))));
                 counter++;
             }
             System.out.println("Would you like to give me a number? y/N");
