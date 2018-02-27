@@ -5,21 +5,20 @@ public class ControlFlowExercises {
         Scanner scanner = new Scanner(System.in);
         boolean again = true;
         while (again) {
-            System.out.println("Would you kindly give me an integer?");
-            int number = scanner.nextInt();
-
-            System.out.println("Here is what you get:");
-
-
-            System.out.println("number\t| squared\t| cubed\t");
-            System.out.println("------\t| -------\t| ------\t");
-
-            int counter = 1;
-            while (counter <= number) {
-                System.out.printf(" %-7d| %-10d| %-10d\n" ,counter, ((int)(Math.pow(counter, 2))),((int)(Math.pow(counter, 3))));
-                counter++;
-            }
-            System.out.println("Would you like to give me a number? y/N");
+            System.out.println("Grade: ");
+            int grade = scanner.nextInt();
+            String letter;
+            if (grade > 88) {
+                letter = "A";
+            } else if (80 <= grade && grade <= 87) {
+                letter = "B";
+            } else if (grade >= 67 && grade <= 79) {
+                letter = "C";
+            } else if (grade >= 60 && grade <= 66) {
+                letter = "D";
+            } else letter = "F";
+            System.out.println("Grade : " + grade + "\tLetter : " + letter);
+            System.out.println("Would you like to continue? y/n");
             String answer = scanner.next();
             if (answer.contains("y")) {
                 again = true;
@@ -27,3 +26,4 @@ public class ControlFlowExercises {
         }
     }
 }
+
