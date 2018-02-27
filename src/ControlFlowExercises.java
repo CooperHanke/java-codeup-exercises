@@ -1,19 +1,29 @@
+import java.util.Scanner;
+
 public class ControlFlowExercises {
     public static void main(String[] args) {
-        for (int i = 1; i <= 100; i++) {
-            if (i % 3 == 0 && i % 5 == 0) {
-                System.out.println("FizzBuzz");
-                continue;
+        Scanner scanner = new Scanner(System.in);
+        boolean again = true;
+        while (again) {
+            System.out.println("Would you kindly give me an integer?");
+            int number = scanner.nextInt();
+
+            System.out.println("Here is what you get:");
+
+
+            System.out.println("number | squared | cubed ");
+            System.out.println("------ | ------- | ----- ");
+
+            int counter = 1;
+            while (counter <= number) {
+                System.out.println(counter + "\t\t| " + (int)(Math.pow(counter, 2)) + "\t\t|" + (int)(Math.pow(counter, 3)) + "\t\t");
+                counter++;
             }
-            if (i % 3 == 0) {
-                System.out.println("Fizz");
-                continue;
-            }
-            if (i % 5 == 0) {
-                System.out.println("Buzz");
-                continue;
-            }
-            System.out.println(i);
+            System.out.println("Would you like to give me a number? y/N");
+            String answer = scanner.next();
+            if (answer.contains("y")) {
+                again = true;
+            } else again = false;
         }
     }
 }
