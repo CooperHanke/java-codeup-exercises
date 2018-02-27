@@ -18,14 +18,13 @@ public class ConsoleExercises {
         second = sc.next();
         third = sc.next();
 
-        System.out.println(first);
-        System.out.println(second);
-        System.out.println(third);
+        System.out.print(first + " " + second + " " + third + "\n");
 
         System.out.println("How about a whole sentence to have a gander at?");
+        sc.nextLine();
         sentence = sc.nextLine();
 
-        System.out.println("Well, you gave me " + sentence);
+        System.out.println("Well, you gave me : \"" + sentence + "\"");
 
         System.out.println("And now, it's time to measure a classroom!");
         System.out.println("How long is the room?");
