@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class MethodsExercises {
     public static void main(String[] args) {
         calculateMethods();
@@ -17,6 +19,15 @@ public class MethodsExercises {
         }
         return result;
     }
+    public static int getInteger(int min, int max) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter a number between 1 and 10: ");
+        int proposedNumber = scan.nextInt();
+        if ((proposedNumber > max) || (proposedNumber < min)) {
+            getInteger(1, 10);
+        }
+        return proposedNumber;
+    }
     private static double divide (double x, double y) {
         return y / x;
     }
@@ -33,5 +44,6 @@ public class MethodsExercises {
         System.out.println("Expected result: 21\nActual Result: " + multiply(num1, num2));
         System.out.println(divide(num1, num2));
         System.out.println("Expected result: 1\nActual Result: " + remainder(num1, num2));
+        int userInput = getInteger(1, 10);
     }
 }
