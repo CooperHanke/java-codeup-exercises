@@ -9,7 +9,13 @@ public class MethodsExercises {
         return y - x;
     }
     private static double multiply (double x, double y) {
-        return x * y;
+//        return x * y; // using built-in * method vs creating a method multiplying without *
+        double result = 0;
+        while (x > 0) {
+            result += y;
+            x--;
+        }
+        return result;
     }
     private static double divide (double x, double y) {
         return y / x;
@@ -24,7 +30,7 @@ public class MethodsExercises {
         System.out.println("num2: " + num2);
         System.out.println(addition(num1, num2));
         System.out.println(subtraction(num1, num2));
-        System.out.println(multiply(num1, num2));
+        System.out.println("Expected result: 21\nActual Result: " + multiply(num1, num2));
         System.out.println(divide(num1, num2));
         System.out.println("Expected result: 1\nActual Result: " + remainder(num1, num2));
     }
