@@ -5,7 +5,7 @@ public class ControlFlowExercises {
         Scanner scanner = new Scanner(System.in);
         boolean again = true;
         while (again) {
-            System.out.println("Grade: ");
+            System.out.println("Grade? > ");
             int grade = scanner.nextInt();
             String letter;
             if (grade > 88) {
@@ -20,7 +20,7 @@ public class ControlFlowExercises {
             System.out.println("Grade : " + grade + "\tLetter : " + letter);
             System.out.println("Would you like to continue? y/n");
             String answer = scanner.next();
-            if (answer.contains("y")) {
+            if (answer.toLowerCase().contains("y")) {
                 again = true;
             } else again = false;
         }
