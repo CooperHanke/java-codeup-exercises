@@ -84,7 +84,7 @@ public class MethodsExercises {
         }
     }
     private static int randomize(int diceSize) {
-        return (int) (Math.random() * diceSize + 1);
+        return (int) (Math.random() * (diceSize + 1));
     }
     private static void calculateMethods() {
         double num1 = 3;
