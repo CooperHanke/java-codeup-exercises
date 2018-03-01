@@ -31,7 +31,11 @@ public class MethodsExercises {
         return (int) (y % x);
     }
 
+<<<<<<< HEAD
     public static int getInteger(int min, int max) {
+=======
+    private static int getInteger(int min, int max) {
+>>>>>>> methods
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter a number between 1 and 10: ");
         int proposedNumber = scan.nextInt();
@@ -41,7 +45,11 @@ public class MethodsExercises {
         return proposedNumber;
     }
 
+<<<<<<< HEAD
     public static void askUser() {
+=======
+    private static void askUser() {
+>>>>>>> methods
         System.out.println("Do you wish to continue?");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next();
@@ -49,7 +57,11 @@ public class MethodsExercises {
             factorials();
         }
     }
+<<<<<<< HEAD
     public static void factorials() {
+=======
+    private static void factorials() {
+>>>>>>> methods
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the number whose factorial is to be found: ");
         int n = scanner.nextInt();
@@ -62,6 +74,7 @@ public class MethodsExercises {
             System.out.println("The factorial of " + n + " is " + result);
             askUser();
         }
+<<<<<<< HEAD
     }
     public static long factFind(int number) {
         int result = 1;
@@ -88,6 +101,36 @@ public class MethodsExercises {
     private static int randomize(int diceSize) {
         return (int) (Math.random() * diceSize + 1);
     }
+=======
+    }
+    private static long factFind(int number) {
+        int result = 1;
+        for (int i = 1; i <= number; i++) {
+            result = result * i;
+        }
+        return result;
+    }
+
+    private static void rollDice() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Come, roll the dice with us! How many sides should the dice have?");
+        int sides = scan.nextInt();
+        int die1 = randomize(sides);
+        int die2 = randomize(sides);
+        System.out.println("The roll of the first die was " + die1 + ", and the roll of the second was " + die2);
+        System.out.println("The total was " + (die1 + die2));
+        System.out.println("Would you like to roll again?");
+        if (scan.next().toLowerCase().contains("y")) {
+            rollDice();
+        }
+    }
+
+    private static int randomize(int diceSize) {
+        return (int) (Math.random() * diceSize + 1);
+    }
+
+
+>>>>>>> methods
 
     private static void calculateMethods() {
         double num1 = 3;
