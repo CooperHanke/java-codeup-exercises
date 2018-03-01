@@ -31,7 +31,7 @@ public class MethodsExercises {
         return (int) (y % x);
     }
 
-    public static int getInteger(int min, int max) {
+    private static int getInteger(int min, int max) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter a number between 1 and 10: ");
         int proposedNumber = scan.nextInt();
@@ -41,7 +41,7 @@ public class MethodsExercises {
         return proposedNumber;
     }
 
-    public static void askUser() {
+    private static void askUser() {
         System.out.println("Do you wish to continue?");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next();
@@ -49,7 +49,7 @@ public class MethodsExercises {
             factorials();
         }
     }
-    public static void factorials() {
+    private static void factorials() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the number whose factorial is to be found: ");
         int n = scanner.nextInt();
@@ -63,7 +63,7 @@ public class MethodsExercises {
             askUser();
         }
     }
-    public static long factFind(int number) {
+    private static long factFind(int number) {
         int result = 1;
         for (int i = 1; i <= number; i++) {
             result = result * i;
@@ -88,6 +88,8 @@ public class MethodsExercises {
     private static int randomize(int diceSize) {
         return (int) (Math.random() * diceSize + 1);
     }
+
+
 
     private static void calculateMethods() {
         double num1 = 3;
