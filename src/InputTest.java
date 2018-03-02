@@ -2,6 +2,7 @@ import util.Input;
 
 public class InputTest {
     public static void main(String[] args) {
+
         Input test = new Input();
         System.out.print("Please give us a string: ");
         String string = test.getString();
