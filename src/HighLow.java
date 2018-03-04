@@ -6,10 +6,11 @@ public class HighLow {
     }
     private static void game() {
         Scanner scan = new Scanner(System.in);
-        int guessesRemaining = 10;
+        System.out.print("How many guesses do you think you can get in this round? >");
+        int guessesRemaining = scan.nextInt();
         int numberToGuess = randomize();
         determineChoice(numberToGuess, guessesRemaining);
-        System.out.print("Would you like to play again? ");
+        System.out.print("Would you like to play again? >");
         if (scan.next().toLowerCase().contains("y")) {
             game();
         }
@@ -19,8 +20,10 @@ public class HighLow {
         int lowerBounds = 1;
         while (guessesRemaining > 0) {
             Scanner scan = new Scanner(System.in);
-            System.out.println("You have " + guessesRemaining + " remaining.");
-            System.out.println("Guess a number between 1 and 100: ");
+            if (guessesRemaining == 1) {
+                System.out.println("You have only have one more guess left!!");
+            } else System.out.println("You have " + guessesRemaining + " guesses remaining.");
+            System.out.print("Guess a number between 1 and 100: >");
             int guess = scan.nextInt();
             if ((guess > upperBounds) || (guess < lowerBounds)) {
                 System.out.println("Sorry, pick a number in range: ");
@@ -28,7 +31,7 @@ public class HighLow {
             }
             if (guess == numberToGuess) {
                 guessesRemaining--;
-                System.out.println("That was a good guess! You had " + guessesRemaining + "!");
+                System.out.println("That was a good guess! You had " + guessesRemaining + " guesses left!");
                 break;
             } else if (guess < numberToGuess) {
                 guessesRemaining--;
