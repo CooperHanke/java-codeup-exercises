@@ -5,3 +5,9 @@
 # Compiled output
 *.class
 out/*
+
+# Part of OOP
+src/BurgerTester.java
+src/BurgerTools.java
+src/RestaurantDish.java
+src/RestaurantTest.java
