@@ -6,12 +6,10 @@ import java.util.*;
 
 public class MovieApplication {
     public static boolean stopped = false;
-    public static Movie[] movies = MoviesArray.findAll();
+    private static Movie[] movies = MoviesArray.findAll();
 
     public static void main(String[] args) {
         do {
-//            System.out.println(movies[movies.length - 1].getName() + " " + movies[movies.length - 1].getCategory());
-//            System.out.println(movies.length - 1);
             generateChoices();
             getChoice();
         } while (!stopped);
@@ -35,6 +33,9 @@ public class MovieApplication {
         int choice = input.getInt();
         System.out.println();
         switch (choice) {
+            case 0:
+                stopped = true;
+                break;
             case 1:
                 viewAllMovies();
                 break;
