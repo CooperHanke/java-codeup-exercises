@@ -104,18 +104,25 @@ public class MovieApplication {
         System.out.println("4 for scifi");
         System.out.println("Select a category: ==> ");
         int category = choice.getInt();
-        if (category == 1) {
-            newList[newList.length - 1] = new Movie(title, "animated");
-            movies = newList;
-        } else if (category == 2) {
-            newList[newList.length - 1] = new Movie(title, "drama");
-            movies = newList;
-        } else if (category == 3) {
-            newList[newList.length - 1] = new Movie(title, "horror");
-            movies = newList;
-        } else if (category == 4) {
-            newList[newList.length - 1] = new Movie(title, "scifi");
-            movies = newList;
-        } else addMovie();
+        switch (category) {
+            case 1:
+                newList[newList.length - 1] = new Movie(title, "animated");
+                movies = newList;
+                break;
+            case 2:
+                newList[newList.length - 1] = new Movie(title, "drama");
+                movies = newList;
+                break;
+            case 3:
+                newList[newList.length - 1] = new Movie(title, "horror");
+                movies = newList;
+                break;
+            case 4:
+                newList[newList.length - 1] = new Movie(title, "scifi");
+                movies = newList;
+                break;
+            default:
+                addMovie();
+        }
     }
 }
