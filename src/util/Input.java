@@ -9,7 +9,7 @@ public class Input {
         this.scanner = new Scanner(System.in);
     }
     public String getString() {
-        return scanner.next();
+        return scanner.nextLine();
     }
     public boolean yesNo() {
         return (scanner.next().toLowerCase().contains("y"));
