@@ -4,7 +4,8 @@ public class Square extends Rectangle{
     private int side;
     public Square(int length, int width) {
         super(length, width);
-        new Rectangle(side);
+        this.side = length;
+        this.side = width;
     }
     public int getArea() {
         return side * side;
