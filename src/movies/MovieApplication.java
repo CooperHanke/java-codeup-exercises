@@ -5,7 +5,7 @@ import util.Input;
 import java.util.*;
 
 public class MovieApplication {
-    public static boolean stopped = false;
+    private static boolean stopped = false;
     private static Movie[] movies = MoviesArray.findAll();
 
     public static void main(String[] args) {
