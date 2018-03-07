@@ -1,17 +1,10 @@
 package shapes;
 
-public abstract class ShapesTest implements Measurable{
-    Measurable myShape = new Measurable() {
-        @Override
-        public double getArea() {
-            return myShape.getArea();
-        }
-        public double getPerimeter() {
-            return myShape.getPerimeter();
-        }
-    };
+public abstract class ShapesTest implements Measurable {
 
     public static void main(String[] args) {
+//        Measurable myShape = new Measurable();\
+        // Cannot be instantiated ^ Not valid code above!!
         Square square = new Square(10);
         System.out.println("Square:");
         System.out.println("Area: " + square.getArea());
