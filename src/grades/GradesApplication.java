@@ -18,11 +18,11 @@ public class GradesApplication {
         cooper.addGrade(80);
         cooper.addGrade(90);
         cooper.addGrade(79);
-        joseph.addGrade(80);
+        joseph.addGrade(20);
         joseph.addGrade(90);
         joseph.addGrade(70);
-        rob.addGrade(80);
-        rob.addGrade(90);
+        rob.addGrade(60);
+        rob.addGrade(60);
         rob.addGrade(60);
         students.put("CooperHanke", cooper);
         students.put("Joseph999", joseph);
@@ -53,7 +53,7 @@ public class GradesApplication {
             closeupStudent(students.get(choice), choice);
             presentStudents();
         } else {
-            System.out.println("No student is listed by that name.");
+            System.out.println((char)27 + "[31mThere is no student under " + choice + ". Try again." + (char)27 + "[39m");
             selectStudent();
         }
     }
@@ -62,7 +62,11 @@ public class GradesApplication {
         System.out.println("Student Name: " + student.getName());
         System.out.println("Github Username: " + choice);
         student.showGrades();
-        System.out.println("Current Average: " + (int)(student.getGradeAverage()) + "\n");
+        if (student.getGradeAverage() <= 70) {
+            System.out.println("Current Average: " + (char)27 + "[31m" + (int)(student.getGradeAverage()) + (char)27 + "[39m\n");
+        } else {
+            System.out.println("Current Average: " + (int)(student.getGradeAverage()) + "\n");
+        }
     }
     private static void allStudentsGrades() {
         System.out.println("All grades for all students: ");

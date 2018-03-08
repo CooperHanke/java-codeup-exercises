@@ -16,6 +16,10 @@ public class Student {
     protected void showGrades() {
         System.out.println("Grades: ");
         for (int grade: this.grades) {
+            if (grade < 70) {
+                System.out.println(" |" + (char)27 + "[31m" + grade + (char)27 + "[39m" + "| ");
+                continue;
+            }
             System.out.println(" |" + grade + "| ");
         }
     }
