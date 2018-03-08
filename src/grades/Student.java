@@ -13,6 +13,12 @@ public class Student {
     protected String getName() {
         return this.name;
     }
+    protected void showGrades() {
+        System.out.println("Grades: ");
+        for (int grade: this.grades) {
+            System.out.println("|" + grade + "|");
+        }
+    }
     protected void addGrade(int grade) {
         this.grades.add(grade);
     }
@@ -21,7 +27,6 @@ public class Student {
         for (int grade: grades) {
             average += grade;
         }
-        System.out.println(average + " / " + this.grades.size() + " = " + average / this.grades.size());
         return average / this.grades.size();
     }
 }

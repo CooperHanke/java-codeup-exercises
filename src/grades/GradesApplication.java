@@ -7,7 +7,7 @@ import util.Input;
 
 public class GradesApplication {
     private static HashMap<String, Student> students = new HashMap<>();
-    public static void testRun() {
+    public static void listMaker() {
         Student cooper = new Student("Cooper");
         Student joseph = new Student("Joseph");
         Student rob = new Student ("Rob");
@@ -31,35 +31,36 @@ public class GradesApplication {
             System.out.println("|" + key + "|\t");
         }
         System.out.println("Type 'exit' in order to quit.");
+        selectStudent();
     }
     public static void selectStudent() {
-            System.out.print("Which student: > ");
-            Input input = new Input();
-            String choice = input.getString();
-            if (choice.contains("exit")) {
-                exit();
-            } else if (students.containsKey(choice)) {
-                closeupStudent(students.get(choice), choice);
-            } else {
-                System.out.println("No student is listed by that name.");
-                selectStudent();
-            }
+        System.out.print("Which student: > ");
+        Input input = new Input();
+        String choice = input.getString();
+        if (choice.contains("exit")) {
+            exit();
+        } else if (students.containsKey(choice)) {
+            closeupStudent(students.get(choice), choice);
+            presentStudents();
+        } else {
+            System.out.println("No student is listed by that name.");
+            selectStudent();
         }
+    }
     public static void closeupStudent(Student student, String choice) {
         System.out.println();
         System.out.println("Student Name: " + student.getName());
         System.out.println("Github Username: " + choice);
+        student.showGrades();
         System.out.println("Current Average: " + (int)(student.getGradeAverage()) + "\n");
-        presentStudents();
     }
     public static void exit() {
         System.out.println("Thank you for using the grading application!");
         System.exit(0);
     }
     public static void main(String[] args) {
-        testRun();
+        listMaker();
         presentStudents();
-        selectStudent();
     }
 }
 
