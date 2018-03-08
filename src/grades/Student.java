@@ -16,7 +16,7 @@ public class Student {
     protected void showGrades() {
         System.out.println("Grades: ");
         for (int grade: this.grades) {
-            System.out.println("|" + grade + "|");
+            System.out.println(" |" + grade + "| ");
         }
     }
     protected void addGrade(int grade) {
