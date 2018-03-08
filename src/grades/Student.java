@@ -21,6 +21,7 @@ public class Student {
         for (int grade: grades) {
             average += grade;
         }
+        System.out.println(average + " / " + this.grades.size() + " = " + average / this.grades.size());
         return average / this.grades.size();
     }
 }
