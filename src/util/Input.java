@@ -1,5 +1,6 @@
 package util;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Input {
@@ -15,22 +16,51 @@ public class Input {
         return (scanner.next().toLowerCase().contains("y"));
     }
     public int getInt(int min, int max) {
-        int number = scanner.nextInt();
-        if (number < min || number > max) {
+        String prospect = scanner.next();
+        try {
+            int number = Integer.valueOf(prospect);
+            if (number < min || number > max) {
+                throw new NumberFormatException();
+            } else return number;
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input, try entry again.");
+            e.getMessage();
             return getInt(min, max);
-        } else return number;
+        }
+
     }
     public int getInt() {
-        return scanner.nextInt();
+        String prospect = scanner.next();
+        try {
+            return Integer.valueOf(prospect);
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input, try entry again.");
+            e.getMessage();
+            return getInt();
+        }
     }
     public double getDouble(double min, double max) {
-        double number = scanner.nextDouble();
-        if (number < min || number > max) {
+        String prospect = scanner.next();
+        try {
+            double number = Double.valueOf(prospect);
+            if (number < min || number > max) {
+                return getDouble(min, max);
+            }
+            return number;
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input, try entry again.");
+            e.getMessage();
             return getDouble(min, max);
         }
-        return number;
     }
     public double getDouble() {
-        return scanner.nextDouble();
+        String prospect = scanner.next();
+        try {
+            return Double.valueOf(prospect);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input, try entry again.");
+            e.getMessage();
+            return getDouble();
+        }
     }
 }
