@@ -2,46 +2,58 @@ package ContactsApplication;
 
 import util.Input;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactApplication {
     private static ArrayList<Contact> contacts = new ArrayList<>();
+    private static String directory = "data";
+    private static String filename = "contacts.txt";
+    private static Path dataDirectory = Paths.get(directory);
+    private static Path dataFile = Paths.get(directory, filename);
 
     public static void main(String[] args) {
-        readdata();
+        initializeData();
+        generateTest();
         options();
     }
-    public static void readdata() {
-        String directory = "../data";
-        String filename = "contacts.txt";
-        Path dataDirectory = Paths.get(directory);
-        Path dataFile = Paths.get(directory, filename);
+    public static void generateTest() {
+        Contact test1 = new Contact("test1","222-222-2222");
+        Contact test2 = new Contact("test2","333-333-3333");
+        Contact test3 = new Contact("test3","444-444-4444");
+        contacts.add(test1);
+        contacts.add(test2);
+        contacts.add(test3);
+    }
+    protected static void initializeData() {
         if (Files.notExists(dataDirectory)) {
-            try {
-                Files.createDirectories(dataDirectory);
-            } catch (Exception e) {
-                e.printStackTrace();
+            Input input = new Input();
+            System.out.print("Data directory \"" + dataDirectory.toAbsolutePath() +
+                    "\" does not exist. Do you wish to create it? (yes/no) > ");
+            boolean choice = input.yesNo();
+            if (choice) {
+                createDirectory();
+            } else {
+                System.out.println("If there is no data file, then there is no reason to continue the program.");
+                exit();
             }
+        } else {
+            System.out.println("Data directory \"" + dataDirectory.toAbsolutePath() + "\" exists, checking for the data file now...");
         }
         if (!Files.exists(dataFile)) {
-            try {
-                Files.createFile(dataFile);
-            } catch (Exception e) {
-                e.printStackTrace();
+            System.out.println("The file \"" + dataFile.toAbsolutePath() + "\" does not exist. Want to create a new data file?");
+            Input input = new Input();
+            boolean shouldCreate = input.yesNo();
+            if (shouldCreate) {
+                createFile();
             }
-        }
-        try {
-            List<String> readLines = Files.readAllLines(dataFile);
-            System.out.println(readLines);
-        } catch (Exception e) {
-            System.out.println("Made an Exception");
-            e.printStackTrace();
+        } else {
+            System.out.println("Data file \"" + dataFile.toAbsolutePath() + "\" exists, reading from the file...");
         }
     }
+
     public static void options() {
         Input input = new Input();
         System.out.println("\n1. View contacts");
@@ -69,23 +81,62 @@ public class ContactApplication {
             default: options();
         }
     }
-    public static void viewContacts(){
-        System.out.println("Would have viewed the contacts");
+    protected static void createDirectory() {
+        try {
+            Files.createDirectories(dataDirectory);
+            System.out.println("Creating \"" + dataDirectory.toAbsolutePath() + "\"");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    protected static void createFile() {
+        try {
+            Files.createFile(dataFile);
+            System.out.println("Creating \"" + dataFile.toAbsolutePath() + "\"...");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    protected static void viewContacts(){
+        System.out.println("Displaying list of contacts...");
+        try {
+            List<String> output = Files.readAllLines(dataFile);
+            System.out.println("DEBUG: datafile:\n" + output);
+            for (String contact : output) {
+                System.out.println("DEBUG: Should be: " + contact);
+                System.out.println(contact);
+            }
+            System.out.println("End of contacts list");
+        } catch (Exception e) {
+            System.out.println("Made an Exception");
+            e.printStackTrace();
+        }
         options();
     }
-    public static void addContact(){
+    protected static void addContact(){
         System.out.println("Would have added contact");
+        System.out.println("For now, we will provide the Contacts objects");
+        List<String> contactsAsStrings = new ArrayList<>();
+        for (Contact contact : contacts) {
+            contactsAsStrings.add(contact.getName() + " " + contact.getPhone());
+        }
+        try {
+            Files.write(dataFile,contactsAsStrings, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Made file \"" + dataFile.toAbsolutePath() + "\"\n");
         options();
     }
-    public static void searchContacts(){
+    protected static void searchContacts(){
         System.out.println("Would have searched contacts");
         options();
     }
-    public static void deleteContact(){
+    protected static void deleteContact(){
         System.out.println("Would have deleted contact");
         options();
     }
-    public static void exit() {
+    private static void exit() {
         System.out.println("Exiting the application...");
         System.exit(0);
     }

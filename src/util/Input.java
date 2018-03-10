@@ -13,7 +13,11 @@ public class Input {
         return scanner.nextLine();
     }
     public boolean yesNo() {
-        return (scanner.next().toLowerCase().contains("y"));
+        if (scanner.next().toLowerCase().contains("y")) {
+            return true;
+        } else if (scanner.next().toLowerCase().contains("n")) {
+            return false;
+        } else return yesNo();
     }
     public int getInt(int min, int max) {
         String prospect = scanner.next();
