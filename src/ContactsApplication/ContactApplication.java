@@ -1,6 +1,7 @@
 package ContactsApplication;
 
 import util.Input;
+
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
@@ -38,10 +39,22 @@ public class ContactApplication {
             Input input = new Input();
             boolean shouldCreate = input.yesNo();
             if (shouldCreate) {
-                createTestFile();
-            }
+                createDataFile();
+            } else options();
         } else {
             System.out.println("Data test file \"" + dataFile.toAbsolutePath() + "\" exists, reading from the file...");
+            try {
+                List<String> loadContacts = Files.readAllLines(dataFile);
+                for (String item : loadContacts) {
+                    String[] words = item.split("\\W+");
+                    String name = words[0] + " " + words[1];
+                    String number = words[2]+words[3]+words[4];
+                    number = String.valueOf(number).replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1)-$2-$3");
+                    createContact(name, number);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -53,13 +66,14 @@ public class ContactApplication {
         System.out.println("4. Delete an existing contact");
         System.out.println("5. Exit");
         System.out.println("Enter an option (1, 2, 3, 4, or 5) > ");
-        int choice = input.getInt(1, 6);
+        int choice = input.getInt(1, 5);
         switch (choice) {
             case 1:
                 viewContacts();
+                options();
                 break;
             case 2:
-                makeNewContactFromMenu();
+                makeContact();
                 break;
             case 3:
                 searchContact();
@@ -70,9 +84,6 @@ public class ContactApplication {
             case 5:
                 exit();
                 break;
-            case 6:
-                System.out.println("Dev Mode");
-                createTestFile();
             default: {
                 System.out.println("Sorry, that is not a valid option. Please try again.");
                 options();
@@ -89,49 +100,30 @@ public class ContactApplication {
         }
     }
 
-    protected static void createTestFile() {
-        List<String> contactsAsStrings = new ArrayList<>();
-        Contact test1 = new Contact("test1", "222-222-2222");
-        Contact test2 = new Contact("test2", "333-333-3333");
-        Contact test3 = new Contact("test3", "444-444-4444");
-        contacts.add(test1);
-        contacts.add(test2);
-        contacts.add(test3);
+    protected static void createDataFile() {
         try {
             Files.createFile(dataFile);
             System.out.println("Creating test file\"" + dataFile.toAbsolutePath() + "\"...");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (Contact contact : contacts) {
-            contactsAsStrings.add(contact.getName() + " " + contact.getPhone());
-        }
-        try {
-            Files.write(dataFile, contactsAsStrings);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Made test file \"" + dataFile.toAbsolutePath() + "\"\n");
     }
 
     protected static void viewContacts() {
-        try {
-            List<String> contactsFromFile = Files.readAllLines(dataFile);
-            for (String contact : contactsFromFile) {
-                System.out.println(contact);
+        if (contacts.isEmpty()) {
+            System.out.println("There are currently no contacts");
+        } else {
+            for (Contact contact : contacts) {
+                System.out.println(contact.getName() + " " + contact.getPhone());
             }
-        } catch (Exception e) {
-            System.out.println("Made an Exception. Unable to read data from file.");
-            e.printStackTrace();
         }
-        options();
     }
-
-    protected static void makeNewContactFromMenu() {
+    protected static void makeContact() {
         String name = getNewContactName();
         String number = getPhoneNumber();
         createContact(name, number);
         viewContacts();
+        options();
     }
     protected static String getNewContactName() {
         Input input = new Input();
@@ -158,88 +150,83 @@ public class ContactApplication {
         return String.valueOf(newPhone).replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1)-$2-$3");
     }
     public static void createContact(String name, String number) {
-        List<String> contactsAsStrings = new ArrayList<>();
         Contact contact = new Contact();
         contact.setName(name);
         contact.setPhone(number);
         contacts.add(contact);
-        for (Contact item : contacts) {
-            contactsAsStrings.add(item.getName() + " " + item.getPhone());
-        }
-        try {
-            Files.write(dataFile,contactsAsStrings,StandardOpenOption.APPEND);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        viewContacts();
+        updateContactFile();
     }
     protected static void searchContact () {
         int entriesMatching = 0;
         Input input = new Input();
         System.out.print("Contact name: > ");
         String search = input.getString();
-        try {
-            List<String> contacts = Files.readAllLines(dataFile);
-            for (String contact : contacts) {
-                if (contact.toLowerCase().contains(search)) {
-                    System.out.println(contact);
-                    entriesMatching++;
-                }
+        for (Contact contact : contacts) {
+            if (contact.getName().equalsIgnoreCase(search)) {
+                System.out.println(contact.getName());
+                entriesMatching++;
             }
-            if (entriesMatching == 1) {
-                System.out.println(entriesMatching + " entry matches the given search: " + search);
-                options();
-            } else if (entriesMatching > 0) {
-                System.out.println(entriesMatching + " entries match the given search: " + search);
-                options();
-            } else {
-                System.out.println("The contact " + search + " does not exist.\nWould you like to create them now? (yes/no) > ");
-                boolean wantsToAdd = input.yesNo();
-                if (wantsToAdd) {
-                    makeNewContactFromSearch(search);
-                } else {
-                    options();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-    }
-    protected static void makeNewContactFromSearch(String searchedName) {
-        String number = getPhoneNumber();
-        createContact(searchedName, number);
-        viewContacts();
+        if (entriesMatching == 1) {
+            System.out.println(entriesMatching + " entry matches the given search: " + search);
+            options();
+        } else if (entriesMatching > 0) {
+            System.out.println(entriesMatching + " entries match the given search: " + search);
+            options();
+        } else {
+            System.out.println("The contact " + search + " does not exist.");
+            options();
+            }
     }
     protected static void deleteContact () {
+        if (contacts.isEmpty()) {
+            System.out.println("There are no contacts, unable to delete. Trying adding contacts first.");
+            options();
+        }
         Input input = new Input();
+        ArrayList<Contact> tempList = new ArrayList<>();
+        for (Contact contact : contacts) {
+            tempList.add(contact);
+        }
+        updateContactFile();
         viewContacts();
-        System.out.println("Which of the contacts did you want to delete? > ");
-        String searchToDelete = input.getString();
-        try {
-            List<String> contacts = Files.readAllLines(dataFile);
-            for (String contact : contacts) {
-                if (contact.toLowerCase().contains(searchToDelete)) {
-                    System.out.println("Confirm delete " + contact + "? (yes/no) > ");
-                    boolean confirm = input.yesNo();
-                    if (confirm) {
-                        contacts.remove(contact.toLowerCase().indexOf(searchToDelete));
-                        Files.write(dataFile,contacts);
-                    } else {
-                        System.out.println("Not deleting " + searchToDelete + ". Returning to the main menu...");
-                        options();
-                    }
+        System.out.println("Contact to delete (type exact name): > ");
+        String contactToDelete = input.getString();
+        for (Contact item : tempList) {
+            if (item.getName().equalsIgnoreCase(contactToDelete)) {
+                System.out.println("Confirm delete " + item.getName() + "? (yes/no) > ");
+                boolean confirm = input.yesNo();
+                if (confirm) {
+                    System.out.println("Removing " + item.getName() + "...");
+                    tempList.remove(item);
                 } else {
-                    System.out.println("The contact " + searchToDelete + " does not exist. Please enter a valid contact.");
-                    deleteContact();
+                    System.out.println("Cancelled deletion of " + item.getName());
+                    options();
                 }
+            } else if (tempList.indexOf(item) == -1) {
+                System.out.println("Unable to find contact, please try again.");
+                deleteContact();
             }
+        }
+        contacts.clear();
+        for (Contact item : tempList) {
+            contacts.add(item);
+        }
+        updateContactFile();
+        options();
+    }
+    protected static void updateContactFile() {
+        List<String> contactsAsStrings = new ArrayList<>();
+        for (Contact contact : contacts) {
+            contactsAsStrings.add(contact.getName() + " " + contact.getPhone());
+        }
+        try {
+            Files.write(dataFile,contactsAsStrings);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        options();
     }
     private static void exit () {
-        System.out.println("DEBUG: Exiting the application...");
         System.exit(0);
     }
 }
