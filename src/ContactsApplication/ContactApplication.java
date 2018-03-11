@@ -35,7 +35,7 @@ public class ContactApplication {
             System.out.println("Data directory \"" + dataDirectory.toAbsolutePath() + "\" exists, checking for the data file now...");
         }
         if (!Files.exists(dataFile)) {
-            System.out.println("Dev Mode: The file \"" + dataFile.toAbsolutePath() + "\" does not exist.\nWant to create a new data file?");
+            System.out.println("The file \"" + dataFile.toAbsolutePath() + "\" does not exist.\nWant to create a new data file?");
             Input input = new Input();
             boolean shouldCreate = input.yesNo();
             if (shouldCreate) {
@@ -43,21 +43,23 @@ public class ContactApplication {
             } else options();
         } else {
             System.out.println("Data test file \"" + dataFile.toAbsolutePath() + "\" exists, reading from the file...");
-            try {
-                List<String> loadContacts = Files.readAllLines(dataFile);
-                for (String item : loadContacts) {
-                    String[] words = item.split("\\W+");
-                    String name = words[0] + " " + words[1];
-                    String number = words[2]+words[3]+words[4];
-                    number = String.valueOf(number).replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1)-$2-$3");
-                    createContact(name, number);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            loadFile();
         }
     }
-
+    public static void loadFile() {
+        try {
+            List<String> loadContacts = Files.readAllLines(dataFile);
+            for (String item : loadContacts) {
+                String[] words = item.split("\\W+");
+                String name = words[0] + " " + words[1];
+                String number = words[2]+words[3]+words[4];
+                number = String.valueOf(number).replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1)-$2-$3");
+                createContact(name, number);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public static void options() {
         Input input = new Input();
         System.out.println("\n1. View contacts");
