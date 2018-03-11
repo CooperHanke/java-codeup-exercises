@@ -6,6 +6,10 @@ public class Contact {
         this.name = name;
         this.phone = phone;
     }
+    protected Contact () {
+        this.name = name;
+        this.phone = phone;
+    }
     public String getName() {
         return this.name;
     }

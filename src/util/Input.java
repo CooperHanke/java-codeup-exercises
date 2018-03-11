@@ -13,11 +13,13 @@ public class Input {
         return scanner.nextLine();
     }
     public boolean yesNo() {
-        if (scanner.next().toLowerCase().contains("y")) {
+        String answer = scanner.next();
+        if (answer.toLowerCase().contains("y")) {
             return true;
-        } else if (scanner.next().toLowerCase().contains("n")) {
+        } else if (answer.toLowerCase().contains("n")) {
             return false;
-        } else return yesNo();
+        }
+        return yesNo();
     }
     public int getInt(int min, int max) {
         String prospect = scanner.next();
