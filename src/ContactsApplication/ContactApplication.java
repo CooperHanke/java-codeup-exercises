@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ContactApplication {
     private static ArrayList<Contact> contacts = new ArrayList<>();
@@ -42,7 +43,7 @@ public class ContactApplication {
                 createDataFile();
             } else options();
         } else {
-            System.out.println("Data test file \"" + dataFile.toAbsolutePath() + "\" exists, reading from the file...");
+            System.out.println("Data file \"" + dataFile.toAbsolutePath() + "\" exists, reading from the file...");
             loadFile();
         }
     }
@@ -105,7 +106,7 @@ public class ContactApplication {
     protected static void createDataFile() {
         try {
             Files.createFile(dataFile);
-            System.out.println("Creating test file\"" + dataFile.toAbsolutePath() + "\"...");
+            System.out.println("Creating data file\"" + dataFile.toAbsolutePath() + "\"...");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -130,25 +131,27 @@ public class ContactApplication {
     protected static String getNewContactName() {
         Input input = new Input();
         String newName;
-        boolean confirm;
-        do {
-            System.out.print("New contact name: > ");
-            newName = input.getString();
-            System.out.print("Name: \"" + newName + " is correct. Confirm? (yes/no) > ");
-            confirm = input.yesNo();
-        } while (!confirm);
+        boolean confirm = false;
+        System.out.print("New contact name: > ");
+        newName = input.getString();
+        System.out.print("Name: \"" + newName + " is correct. Confirm? (yes/no) > ");
+        confirm = input.yesNo();
+        if (!confirm) {
+            getNewContactName();
+        }
         return newName;
     }
     protected static String getPhoneNumber () {
         Input input = new Input();
         String newPhone;
         boolean confirm;
-        do {
-            System.out.print("New contact number: > ");
-            newPhone = input.getString();
-            System.out.println("New contact number: " + newPhone + "\nConfirm? (yes/no) >");
-            confirm = input.yesNo();
-        } while (!confirm);
+        System.out.print("New contact number: > ");
+        newPhone = input.getString();
+        System.out.println("New contact number: " + newPhone + "\nConfirm? (yes/no) >");
+        confirm = input.yesNo();
+        if (!confirm) {
+            getPhoneNumber();
+        }
         return String.valueOf(newPhone).replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1)-$2-$3");
     }
     public static void createContact(String name, String number) {
@@ -156,7 +159,6 @@ public class ContactApplication {
         contact.setName(name);
         contact.setPhone(number);
         contacts.add(contact);
-        updateContactFile();
     }
     protected static void searchContact () {
         int entriesMatching = 0;
@@ -186,11 +188,10 @@ public class ContactApplication {
             options();
         }
         Input input = new Input();
-        ArrayList<Contact> tempList = new ArrayList<>();
+        CopyOnWriteArrayList<Contact> tempList = new CopyOnWriteArrayList<>();
         for (Contact contact : contacts) {
             tempList.add(contact);
         }
-        updateContactFile();
         viewContacts();
         System.out.println("Contact to delete (type exact name): > ");
         String contactToDelete = input.getString();
@@ -214,21 +215,23 @@ public class ContactApplication {
         for (Contact item : tempList) {
             contacts.add(item);
         }
-        updateContactFile();
         options();
     }
-    protected static void updateContactFile() {
+    protected static void saveContactFile() {
         List<String> contactsAsStrings = new ArrayList<>();
+        System.out.println("Saving contact file...");
         for (Contact contact : contacts) {
             contactsAsStrings.add(contact.getName() + " " + contact.getPhone());
         }
         try {
             Files.write(dataFile,contactsAsStrings);
+            System.out.println("Contact file save successful!");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     private static void exit () {
+        saveContactFile();
         System.exit(0);
     }
 }
