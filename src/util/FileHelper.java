@@ -9,44 +9,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileHelper {
-    protected static List<String> slurp(String filepath) {
+
+    public static void main(String[] args) {
+        List<String> something = new ArrayList<>();
+        something.add("hello, this is the start");
+        something.add("");
+        something.add("and this will be the end");
+        String file = "example.txt";
         try {
-            List<String> lines;
-            Path path = Paths.get(filepath);
-            lines = Files.readAllLines(path);
-            return lines;
+            spit(file, something);
         } catch (IOException e) {
-            System.out.println("Unable to read the file, check the path and run the command again");
             e.printStackTrace();
-            System.exit(1);
         }
-        return null;
-    }
-    protected static void spit(String filename, List<String> contents) {
-        Path path = Paths.get(filename);
         try {
-            Files.write(path, contents);
-        } catch (Exception e) {
-            System.out.println("Unable to write the file, check the path and run the command again");
+            slurp(file);
+        } catch (IOException e) {
             e.printStackTrace();
-            System.exit(1);
+        }
+        try {
+            makeExciting(file);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-    protected static void spit(String filename, List<String> contents, boolean append) {
+
+    protected static List<String> slurp(String filepath) throws IOException {
+        List<String> lines;
+        Path path = Paths.get(filepath);
+        lines = Files.readAllLines(path);
+        return lines;
+    }
+    protected static void spit(String filename, List<String> contents) throws IOException {
+        Path path = Paths.get(filename);
+        Files.write(path, contents);
+    }
+    protected static void spit(String filename, List<String> contents, boolean append) throws IOException {
         Path path = Paths.get(filename);
         if (append) {
-            try {
-                Files.write(path, contents, StandardOpenOption.APPEND);
-            } catch (Exception e) {
-                System.out.println("Unable to write the file, check the path and run the command again");
-                e.printStackTrace();
-                System.exit(1);
-            }
+            Files.write(path, contents, StandardOpenOption.APPEND);
         } else {
             spit(filename, contents);
         }
     }
-    protected static void makeExciting(String filename) {
+    protected static void makeExciting(String filename) throws IOException {
         Path path = Paths.get(filename);
         List<String> lines = slurp(filename);
         List<String> newlines = new ArrayList<>();
@@ -56,20 +61,7 @@ public class FileHelper {
                 newlines.add(newline);
             } else newlines.add(" ");
         }
-        try {
-            Files.write(path, newlines);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Files.write(path, newlines);
     }
-    public static void main(String[] args) {
-        List<String> something = new ArrayList<>();
-        something.add("hello, this is the start");
-        something.add("");
-        something.add("and this will be the end");
-        String file = "example.txt";
-        spit(file, something);
-        slurp(file);
-        makeExciting(file);
-    }
+
 }
