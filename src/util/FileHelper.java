@@ -1,10 +1,7 @@
 package util;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +28,14 @@ public class FileHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        copy(file, "copied.txt");
+        copy("copied.txt", "testtext.txt");
+        move("testtext.txt", "moved.txt");
     }
 
     protected static List<String> slurp(String filepath) throws IOException {
-        List<String> lines;
         Path path = Paths.get(filepath);
-        lines = Files.readAllLines(path);
+        List<String> lines = Files.readAllLines(path);
         return lines;
     }
     protected static void spit(String filename, List<String> contents) throws IOException {
@@ -62,6 +61,24 @@ public class FileHelper {
             } else newlines.add(" ");
         }
         Files.write(path, newlines);
+    }
+    protected static void copy(String originalFile, String copyName) {
+        Path file = Paths.get(originalFile);
+        Path filecopy = Paths.get(copyName);
+        try {
+            Files.copy(file, filecopy);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    protected static void move(String oldPath, String newPath) {
+        Path oldLocation = Paths.get(oldPath);
+        Path newLocation = Paths.get(newPath);
+        try {
+            Files.move(oldLocation, newLocation, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
